@@ -1,17 +1,31 @@
-name: Hellow world workflow
-on: 
+name: GCP Authentication and Bucket Creation
+
+on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
+
 jobs:
-  helloworld:
+  gcp-auth:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - name: hellow world
-        run: echo " Hello this is my actions speaking"
-        shell: bash
+      # Checkout code (if needed)
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Google Cloud SDK
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: admin-443008  # Use the secret for project ID
+          credentials_json: ${{ secrets.GCP_SA_KEY }}  # Use the secret for service account key
+
+      # Create Google Cloud Storage Bucket
+      - name: Create GCP Bucket
+        run: |
+          BUCKET_NAME="my-new-bucket-$(date +'%Y%m%d%H%M%S')"  # Generate a unique name
+          gsutil mb -l us-central1 gs://$BUCKET_NAME/  # Create the bucket
+
+          echo "Created bucket gs://$BUCKET_NAME"
