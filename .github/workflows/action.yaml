@@ -20,7 +20,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: admin-443008  # Use the secret for project ID
-          credentials_json: ${{ secrets.GCP_SA_KEY }}  # Use the secret for service account key
+          credentials_json: ${{ env.SECRET }}  # Use the secret for service account key
 
       # Create Google Cloud Storage Bucket
       - name: Create GCP Bucket
