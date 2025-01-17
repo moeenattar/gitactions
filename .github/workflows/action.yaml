@@ -21,6 +21,12 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+      # Set up Google Cloud SDK
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: "admin-443008"          
+
       # Create Google Cloud Storage Bucket
       - name: Create GCP Bucket
         run: |
