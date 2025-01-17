@@ -15,12 +15,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Authenticate with Google Cloud using Service Account Key
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
       # Set up Google Cloud SDK
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
-          project_id: "admin-443008"  # Use the secret for project ID
-          credentials_json: ${{ secrets.GCP_SA_KEY }}  # Use the secret for service account key
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
 
       # Create Google Cloud Storage Bucket
       - name: Create GCP Bucket
